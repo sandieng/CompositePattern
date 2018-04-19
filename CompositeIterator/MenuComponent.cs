@@ -1,10 +1,10 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CompositeIterator
 {
-    public abstract class MenuComponent
+    public abstract class MenuComponent : IEnumerable<MenuComponent>
     {
         public virtual void Add(MenuComponent menuComponent)
         {
@@ -24,9 +24,16 @@ namespace CompositeIterator
 
         public virtual bool IsVegetarian { get; set; }
 
+        public abstract IEnumerator<MenuComponent> GetEnumerator();
+
         public virtual void Print()
         {
             throw new NotSupportedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
