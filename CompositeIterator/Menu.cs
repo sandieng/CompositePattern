@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CompositeIterator
 {
@@ -12,11 +12,6 @@ namespace CompositeIterator
         {
             Name = name;
             Description = description;
-        }
-
-        public IEnumerator CreateIterator()
-        {
-            return new CompositeIterator(_menuComponents);
         }
 
         public override void Add(MenuComponent menuComponent)
@@ -52,6 +47,20 @@ namespace CompositeIterator
         public MenuComponent GetChild(string name)
         {
             return _menuComponents.Find(x => x.Name == name);
+        }
+
+        public override IEnumerator<MenuComponent> GetEnumerator()
+        {
+            var components = new Stack<MenuComponent>(new[] { this });
+            while (components.Any())
+            {
+                MenuComponent component = components.Pop();
+                yield return component;
+                if (component is Menu menu)
+                {
+                    foreach (var n in menu._menuComponents) components.Push(n);
+                }
+            }
         }
     }
 }
