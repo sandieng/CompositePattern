@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CompositeIterator
 {
@@ -15,11 +13,6 @@ namespace CompositeIterator
             Price = price;
         }
 
-        public IEnumerator CreateIterator()
-        {
-            return new NullIterator();
-        }
-
         public override void Print()
         {
             Console.Write($"  {Name}");
@@ -29,6 +22,11 @@ namespace CompositeIterator
             }
             Console.WriteLine($", {Price}");
             Console.WriteLine($"   -- {Description}");
+        }
+
+        public override IEnumerator<MenuComponent> GetEnumerator()
+        {
+            yield break;
         }
     }
 }
